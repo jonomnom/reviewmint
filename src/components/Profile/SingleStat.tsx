@@ -47,7 +47,7 @@ const SingleStat: FC<Props> = ({
 
   return (
     <article className="hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer first:rounded-t-xl last:rounded-b-xl p-5">
-      <div className='font-thin'>{title}</div>
+      <div className="font-thin">{title}</div>
       <div className="font-normal text-slate-500">{description}</div>
     </article>
   );

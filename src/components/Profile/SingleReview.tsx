@@ -4,6 +4,7 @@ import type { LensterPublication } from '@generated/lenstertypes';
 import type { ElectedMirror, FeedItem } from '@generated/types';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import type { FC } from 'react';
 import Stars from './Stars';
@@ -20,6 +21,8 @@ interface Props {
   title: string;
   description: string;
   rating: number;
+  lensHandle: string;
+  profileUrl: string;
 }
 
 const SingleReview: FC<Props> = ({
@@ -31,7 +34,9 @@ const SingleReview: FC<Props> = ({
   // showThread = true
   title,
   description,
-  rating
+  rating,
+  lensHandle,
+  profileUrl
 }) => {
   const { push } = useRouter();
   // const isMirror = publication.__typename === 'Mirror';
@@ -49,11 +54,21 @@ const SingleReview: FC<Props> = ({
   //   : publication?.createdAt;
 
   return (
-    <article className="hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer first:rounded-t-xl last:rounded-b-xl p-5">
-      <div className="font-thin pb-2">{title}</div>
-      <Stars number={rating} />
-      <div className="font-normal text-slate-500">{description}</div>
-    </article>
+    <>
+      <article className="hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer first:rounded-t-xl last:rounded-b-xl p-5">
+        <Link href={`/review/${lensHandle}`}>
+          <div className="flex align-middle mb-3">
+            <div className="mt-0 w-fit">
+              <img src={profileUrl} className="rounded-full w-14 " alt="profile picture" />
+            </div>
+            <div className="text-center my-auto ml-2">@{lensHandle}</div>
+          </div>
+          <div className="font-thin pb-2">{title}</div>
+          <Stars number={rating} />
+          <div className="font-normal text-slate-500">{description}</div>
+        </Link>
+      </article>
+    </>
   );
 };
 
