@@ -16,6 +16,7 @@ import Feed from './Feed';
 import FeedType from './FeedType';
 import NFTFeed from './NFTFeed';
 import ProfilePageShimmer from './Shimmer';
+import Stats from './Stats';
 
 const ViewProfile: NextPage = () => {
   const {
@@ -65,12 +66,10 @@ const ViewProfile: NextPage = () => {
         <GridItemFour>
           <Details profile={profile as any} />
         </GridItemFour>
+        
         <GridItemEight className="space-y-5">
-          <FeedType stats={profile?.stats as any} setFeedType={setFeedType} feedType={feedType} />
-          {(feedType === 'FEED' || feedType === 'REPLIES' || feedType === 'MEDIA') && (
-            <Feed profile={profile as any} type={feedType} />
-          )}
-          {feedType === 'NFT' && <NFTFeed profile={profile as any} />}
+          {/* <FeedType stats={profile?.stats as any} setFeedType={setFeedType} feedType={feedType} /> */}
+          <Stats profile={profile as any} />
         </GridItemEight>
       </GridLayout>
     </>
