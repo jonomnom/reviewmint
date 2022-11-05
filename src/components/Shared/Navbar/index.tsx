@@ -86,7 +86,7 @@ const Navbar: FC = () => {
                     className="w-8 h-8"
                     height={32}
                     width={32}
-                    src={currentProfile && hasPrideLogo(currentProfile) ? '/pride.svg' : '/logo.svg'}
+                    src={currentProfile && hasPrideLogo(currentProfile) ? '/pride.svg' : '/logo.png'}
                     alt="Logo"
                   />
                 </Link>

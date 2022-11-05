@@ -38,7 +38,7 @@ const ProfileStaffTool: FC<Props> = ({ profile }) => {
                 className="w-4 h-4"
                 height={16}
                 width={16}
-                src={hasPrideLogo(profile) ? '/pride.svg' : '/logo.svg'}
+                src={hasPrideLogo(profile) ? '/pride.svg' : '/logo.png'}
                 alt="Logo"
               />
             }
