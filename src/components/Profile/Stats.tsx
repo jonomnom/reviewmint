@@ -34,12 +34,12 @@ const Stats: FC<Props> = ({ profile }) => {
   const [showAddReviewModal, setShowAddReviewModal] = useState<number>();
   const stats = [
     {
-      category: 'exp',
+      category: 'Experience',
       description:
         'I have been doing web development for 2 years. I got into crypto 1 year ago. I am the cofounder of Clipto and AmpliFi.'
     },
     {
-      category: 'edu',
+      category: 'Education',
       description: 'I graduated UC Berkeley with a BS in Molecular Biology'
     }
   ];

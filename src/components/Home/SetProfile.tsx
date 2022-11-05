@@ -27,7 +27,7 @@ const SetProfile: FC = () => {
   const profiles = useAppStore((state) => state.profiles);
   const currentProfile = useAppStore((state) => state.currentProfile);
   const hasDefaultProfile = !!profiles.find((o) => o.isDefault);
-  const doneSetup = !!currentProfile?.name && !!currentProfile?.bio && !!currentProfile?.picture;
+  const doneSetup = !!currentProfile?.name && !!currentProfile?.bio && !!currentProfile?.exp && !!currentProfile?.edu && !!currentProfile?.picture;
 
   if (!hasDefaultProfile || doneSetup) {
     return null;
@@ -45,6 +45,8 @@ const SetProfile: FC = () => {
       <div className="space-y-1 text-sm leading-[22px]">
         <Status finished={!!currentProfile?.name} title="Set profile name" />
         <Status finished={!!currentProfile?.bio} title="Set profile bio" />
+        <Status finished={!!currentProfile?.exp} title="Set profile exp" />
+        <Status finished={!!currentProfile?.edu} title="Set profile edu" />
         <Status finished={!!currentProfile?.picture} title="Set your avatar" />
       </div>
       <div className="flex items-center space-x-1.5 text-sm font-bold">

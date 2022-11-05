@@ -49,7 +49,9 @@ const editProfileSchema = object({
   twitter: string().max(100, {
     message: 'Twitter should not exceed 100 characters'
   }),
-  bio: string().max(260, { message: 'Bio should not exceed 260 characters' })
+  bio: string().max(260, { message: 'Bio should not exceed 260 characters' }),
+  exp: string().max(5000, { message: 'Experience should not exceed 5000 characters' }),
+  edu: string().max(5000, { message: 'Education should not exceed 5000 characters' })
 });
 
 interface Props {
@@ -168,7 +170,9 @@ const Profile: FC<Props> = ({ profile }) => {
       location: getAttribute(profile?.attributes, 'location'),
       website: getAttribute(profile?.attributes, 'website'),
       twitter: getAttribute(profile?.attributes, 'twitter')?.replace('https://twitter.com/', ''),
-      bio: profile?.bio ?? ''
+      bio: profile?.bio ?? '',
+      exp: profile?.exp ?? '',
+      edu: profile?.edu ?? ''
     }
   });
 
@@ -177,7 +181,9 @@ const Profile: FC<Props> = ({ profile }) => {
     location: string | null,
     website?: string | null,
     twitter?: string | null,
-    bio?: string | null
+    bio?: string | null,
+    exp?: string | null,
+    edu?: string | null
   ) => {
     if (!currentProfile) {
       return toast.error(SIGN_WALLET);
@@ -251,8 +257,8 @@ const Profile: FC<Props> = ({ profile }) => {
       <Form
         form={form}
         className="space-y-4"
-        onSubmit={({ name, location, website, twitter, bio }) => {
-          editProfile(name, location, website, twitter, bio);
+        onSubmit={({ name, location, website, twitter, bio, exp }) => {
+          editProfile(name, location, website, twitter, bio, exp);
         }}
       >
         {error && <ErrorMessage className="mb-3" title="Transaction failed!" error={error} />}
@@ -268,6 +274,8 @@ const Profile: FC<Props> = ({ profile }) => {
           {...form.register('twitter')}
         />
         <TextArea label="Bio" placeholder="Tell us something about you!" {...form.register('bio')} />
+        <TextArea label="Experience" placeholder="Tell us your work experiences" {...form.register('exp')} />
+        <TextArea label="Education" placeholder="Tell us your education" {...form.register('edu')} />
         <div className="space-y-1.5">
           <div className="label">Cover</div>
           <div className="space-y-3">
