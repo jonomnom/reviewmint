@@ -1,0 +1,12 @@
+type ExampleEntity @entity {
+  id: ID!
+  count: BigInt!
+  requestId: BigInt! # uint256
+  user_address: String! # string
+}
+
+type Skills @entity {
+  id: ID!
+  skill: ID!
+  account: String!
+}
