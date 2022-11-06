@@ -22,7 +22,7 @@ import isVerified from '@lib/isVerified';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTheme } from 'next-themes';
-import type { FC, ReactElement } from 'react';
+import { FC, ReactElement, useEffect } from 'react';
 import { useState } from 'react';
 import { STATIC_ASSETS } from 'src/constants';
 import { useAppStore } from 'src/store/app';
@@ -32,10 +32,18 @@ import Badges from './Badges';
 import Followerings from './Followerings';
 import MutualFollowers from './MutualFollowers';
 import MutualFollowersList from './MutualFollowers/List';
+import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
+import { useContractRead } from 'wagmi';
+import ABI from '../../../thegraph/abis/Contract.json';
 
 interface Props {
   profile: Profile;
 }
+
+const client = new ApolloClient({
+  uri: 'https://api.thegraph.com/subgraphs/name/jonomnom/reviewmint',
+  cache: new InMemoryCache()
+});
 
 const Details: FC<Props> = ({ profile }) => {
   const currentProfile = useAppStore((state) => state.currentProfile);
@@ -46,7 +54,16 @@ const Details: FC<Props> = ({ profile }) => {
   const router = useRouter();
   const messageProfiles = useMessageStore((state) => state.messageProfiles);
   const setMessageProfiles = useMessageStore((state) => state.setMessageProfiles);
-
+  const {
+    data,
+    error,
+    isLoading: writeLoading
+  } = useContractRead({
+    address: '0x0E5A55592bFa892a5c68c1f89260EDa7006E1165',
+    abi: ABI,
+    functionName: 'isVerified'
+  });
+  console.log('data', data);
   const onMessageClick = () => {
     if (!currentProfile) {
       return;
@@ -231,6 +248,9 @@ const Details: FC<Props> = ({ profile }) => {
               </a>
             </MetaDetails>
           )}
+          <a href="https://mumbai.polygonscan.com/address/0x0E5A55592bFa892a5c68c1f89260EDa7006E1165#readContract">
+            Check if ENS verified (powered by midpoint)
+          </a>
         </div>
       </div>
       <Badges profile={profile} />
