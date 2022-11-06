@@ -9,7 +9,7 @@ import type { LensterPublication } from '@generated/lenstertypes';
 import type { Profile } from '@generated/types';
 import { ProfileFeedDocument, PublicationMainFocus, PublicationTypes } from '@generated/types';
 import { ChatAlt2Icon, CollectionIcon } from '@heroicons/react/outline';
-import { FC, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { SCROLL_THRESHOLD } from 'src/constants';
 import { useAppStore } from 'src/store/app';
@@ -24,16 +24,89 @@ import { Modal } from '@components/UI/Modal';
 import CollectModule from '@components/Publication/Actions/Collect/CollectModule';
 import NewComment from '@components/Composer/Comment/New';
 import getAttribute from '@lib/getAttribute';
-
+import NewReview from './NewReview';
+import NewSkill from './NewSkills';
+import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
 interface Props {
   profile: Profile;
 }
 
+const client = new ApolloClient({
+  uri: 'https://api.thegraph.com/subgraphs/name/jonomnom/reviewmint',
+  cache: new InMemoryCache()
+});
+
 const Stats: FC<Props> = ({ profile }) => {
   const parent = useAutoAnimate(/* optional config */);
   const currentProfile = useAppStore((state) => state.currentProfile);
-  const [skillSelected, setSkillSelected] = useState<number>();
-  const [showAddReviewModal, setShowAddReviewModal] = useState<number>();
+  const [skillSelected, setSkillSelected] = useState<string>();
+  const [showAddReviewModal, setShowAddReviewModal] = useState<boolean>(false);
+  const [skills, setSkills] = useState<Array<any>>();
+  const [reviews, setReviews] = useState<Array<any>>();
+
+  useEffect(() => {
+    if (!client) return;
+    if (!profile.ownedBy) return;
+    const querySubscription = client
+      .watchQuery({
+        query: gql`
+        query getSkills{
+          skills(where: { account: "${profile.ownedBy.toLowerCase()}" }, first: 4) {
+            account
+            totalRatings
+            skill
+            NumOfRatings
+            id
+          }
+        }
+      `,
+        pollInterval: 5000,
+
+        fetchPolicy: 'cache-and-network'
+      })
+      .subscribe((res) => {
+        setSkills(res.data && res.data.skills);
+      });
+    return () => {
+      querySubscription.unsubscribe();
+    };
+  }, [client, profile.ownedBy]);
+
+  useEffect(() => {
+    if (!client) return;
+    if (!profile.ownedBy) return;
+    if (!skills) return;
+    setReviews(undefined);
+    const querySubscription = client
+      .watchQuery({
+        query: gql`
+        query getReviews{
+          reviews (where: {skill_: {
+            id: "${skillSelected}"
+          }}){
+            description
+            rating
+            reviewee
+            id
+            skill {
+              id
+              skill
+            }
+          }
+        }
+      `,
+        pollInterval: 5000,
+        fetchPolicy: 'cache-and-network'
+      })
+      .subscribe((res) => {
+        console.log(res);
+        setReviews(res.data && res.data.reviews);
+      });
+    return () => {
+      querySubscription.unsubscribe();
+    };
+  }, [client, profile.ownedBy, skills, skillSelected]);
+
   const stats = [
     {
       category: 'Experience',
@@ -44,7 +117,8 @@ const Stats: FC<Props> = ({ profile }) => {
       description: getAttribute(profile?.attributes, 'education')
     }
   ];
-  const skills = [
+  const [f, a] = useState('');
+  const skills1 = [
     {
       title: 'HTML',
       reviews: [
@@ -150,97 +224,108 @@ const Stats: FC<Props> = ({ profile }) => {
   const isLoading = false;
   const reviewCompleted = false;
   const addReview = () => {};
-
   return (
     <>
-      {reviewer ? (<Modal onClose={() => setSkillSelected(undefined)} show={skillSelected !== undefined} title={'Review'}>
-        {/* <CollectModule count={'1-1'} publication={'A' as any} setCount={1 as any} /> */}
-        <NewComment publication={'0x1c19-0x64' as any} />
-      </Modal>) : null}
-      <div className="flex justify-between gap-4">
-        <Card className="divide-y-[1px] dark:divide-gray-700/80">
-          {stats?.map((stats, index: number) => (
-            <SingleStat
-              key={`${stats.category}_${index}`}
-              title={stats.category}
-              description={stats.description}
-            />
-          ))}
-          {skills?.map((skill, i) => (
-            <div
-              className={`p-5 hover:bg-gray-800 cursor-pointer ${i === skillSelected && 'bg-gray-800'}`}
-              onClick={() => {
-                if (skillSelected === i) {
-                  setSkillSelected(undefined);
-                } else {
-                  setSkillSelected(i);
-                }
-              }}
-            >
-              <div className="flex justify-between">
-                <div className="my-2">{skill.title} </div>
-                <Stars number={skill.score} />
-                <div className="my-2 text-slate-500">{skill.totalNumOfReviews} Reviews</div>
-                {reviewer && typeof skillSelected !== 'number' ? (
-                  <Button
-                    disabled={isLoading || reviewCompleted}
-                    icon={isLoading ? <Spinner size="xs" /> : <ChatAlt2Icon className="w-4 h-4" />}
-                    onClick={() => setShowAddReviewModal(skillSelected)}
-                  >
-                    {reviewCompleted ? 'Review Completed' : 'Add Review'}
-                  </Button>
-                ) : null}
-              </div>
+      {skills && skills.length > 0 && reviewer ? (
+        <Button
+          disabled={isLoading || reviewCompleted}
+          icon={isLoading ? <Spinner size="xs" /> : <ChatAlt2Icon className="w-4 h-4" />}
+          onClick={() => setShowAddReviewModal(true)}
+        >
+          {'Add Review'}
+        </Button>
+      ) : skills && skills.length === 0 && !reviewer ? (
+        <>
+          <Button
+            disabled={isLoading || reviewCompleted}
+            icon={isLoading ? <Spinner size="xs" /> : <ChatAlt2Icon className="w-4 h-4" />}
+            onClick={() => setShowAddReviewModal(true)}
+          >
+            {'Add Skills'}
+          </Button>
+        </>
+      ) : null}
+      {true ? (
+        <Modal onClose={() => setShowAddReviewModal(false)} show={showAddReviewModal} title={'Review'}>
+          {/* <CollectModule count={'1-1'} publication={'A' as any} setCount={1 as any} /> */}
+          {reviewer && skills ? (
+            <NewReview profile={profile} setShowAddReviewModal={setShowAddReviewModal} skills={skills} />
+          ) : (
+            <NewSkill
+              profile={currentProfile as Profile}
+              setShowAddReviewModal={setShowAddReviewModal}
+            ></NewSkill>
+          )}
+        </Modal>
+      ) : null}
+      {skills && (skills as any).length > 0 ? (
+        <div className="flex justify-between gap-4">
+          <Card className="divide-y-[1px] dark:divide-gray-700/80">
+            {stats?.map((stats, index: number) => (
+              <SingleStat
+                key={`${stats.category}_${index}`}
+                title={stats.category}
+                description={stats.description}
+              />
+            ))}
+            {(skills as any)?.map((skill: any, i) => {
+              console.log(skill, skill.id, skillSelected, 'Asdfasdf');
+              return (
+                <div
+                  className={`p-5 hover:bg-gray-100 cursor-pointer ${
+                    skill.id === skillSelected && 'bg-gray-100'
+                  }`}
+                  onClick={() => {
+                    if (skillSelected === skill.id) {
+                      setSkillSelected(undefined);
+                    } else {
+                      setSkillSelected(skill.id);
+                    }
+                  }}
+                >
+                  <div className="flex justify-between">
+                    <div className="my-2">{skill.skill} </div>
+                    <Stars number={parseInt(skill.totalRatings || '0') || 0} />
+                    {/* TODO: Make this an average */}
+                    <div className="my-2 text-slate-500">{skill.NumOfRatings} Reviews</div>
+                  </div>
+                </div>
+              );
+            })}
+          </Card>
+          {skillSelected !== undefined && (
+            <div className="w-full">
+              <InfiniteScroll
+                dataLength={100}
+                hasMore={true}
+                loader={null && <InfiniteLoader />}
+                scrollThreshold={0.5}
+                className="w-full"
+              >
+                <Card className="divide-y-[1px] dark:divide-gray-700/80 w-full">
+                  {' '}
+                  {reviews &&
+                    reviews.map((review, index: number) => {
+                      console.log(review);
+                      return (
+                        <SingleReview
+                          key={`${review.title}_${index}`}
+                          lensHandle={review.lensHandle}
+                          profileUrl={review.profileUrl}
+                          title={review.title}
+                          description={review.description}
+                          rating={review.score}
+                        />
+                      );
+                    })}
+                </Card>
+              </InfiniteScroll>
             </div>
-          ))}
-        </Card>
-        {skillSelected !== undefined && (
-          <div className="w-full">
-            <InfiniteScroll
-              dataLength={100}
-              hasMore={true}
-              next={async () => {
-                return new Promise((resolve) =>
-                  setTimeout(() => {
-                    resolve({
-                      data: [
-                        ...skills[skillSelected]?.reviews,
-                        {
-                          title: 'Best designer ever',
-                          score: 3,
-                          description: 'React wizard. Does awesome work!'
-                        },
-                        {
-                          title: 'Best designer ever',
-                          score: 1,
-                          description: 'Decent at React. Does awesome work!'
-                        }
-                      ]
-                    });
-                  }, 300)
-                );
-              }}
-              loader={null && <InfiniteLoader />}
-              scrollThreshold={0.5}
-              className="w-full"
-            >
-              <Card className="divide-y-[1px] dark:divide-gray-700/80 w-full">
-                {' '}
-                {skills[skillSelected]?.reviews.map((review, index: number) => (
-                  <SingleReview
-                    key={`${review.title}_${index}`}
-                    lensHandle={review.lensHandle}
-                    profileUrl={review.profileUrl}
-                    title={review.title}
-                    description={review.description}
-                    rating={review.score}
-                  />
-                ))}
-              </Card>
-            </InfiniteScroll>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      ) : (
+        <div>No skills found. This user needs to to set some skills in order to get reviews!</div>
+      )}
     </>
   );
 };

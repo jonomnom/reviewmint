@@ -6,7 +6,7 @@ export const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 // Lens Network
 export const LENS_NETWORK = process.env.NEXT_PUBLIC_LENS_NETWORK ?? 'mainnet';
-export const MAINNET_API_URL = 'https://api.lens.dev';
+export const MAINNET_API_URL = 'https://api-mumbai.lens.dev';
 export const TESTNET_API_URL = 'https://api-mumbai.lens.dev';
 export const STAGING_API_URL = 'https://staging-api-social-mumbai.lens.crtlkey.com';
 export const SANDBOX_API_URL = 'https://api-sandbox-mumbai.lens.dev';
@@ -17,7 +17,7 @@ export const LENS_PERIPHERY = getEnvConfig().lensPeripheryAddress;
 export const FREE_COLLECT_MODULE = getEnvConfig().freeCollectModuleAddress;
 export const DEFAULT_COLLECT_TOKEN = getEnvConfig().defaultCollectToken;
 
-export const IS_MAINNET = API_URL === MAINNET_API_URL;
+export const IS_MAINNET = false;
 
 // XMTP
 export const XMTP_ENV = IS_MAINNET ? 'production' : 'dev';
@@ -25,8 +25,7 @@ export const XMTP_PREFIX = 'lens.dev/dm';
 
 // Application
 export const APP_NAME = 'Reviewmint';
-export const DESCRIPTION =
-  'Reviewmint is a decentralized review protocol with text notifications';
+export const DESCRIPTION = 'Reviewmint is a decentralized review protocol with text notifications';
 export const DEFAULT_OG = 'https://ibb.co/SVf10DM';
 
 // Git

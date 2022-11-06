@@ -54,6 +54,8 @@ function _getOrCreateReview(
   review.rating = rating;
   review.description = description;
   review.skill = skill.id;
+  review.reviewer = reviewer.toHexString();
+  review.reviewee = reviewee.toHexString();
   review.save();
   return;
 }

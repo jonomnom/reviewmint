@@ -110,6 +110,24 @@ export class Review extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get reviewer(): string {
+    let value = this.get("reviewer");
+    return value!.toString();
+  }
+
+  set reviewer(value: string) {
+    this.set("reviewer", Value.fromString(value));
+  }
+
+  get reviewee(): string {
+    let value = this.get("reviewee");
+    return value!.toString();
+  }
+
+  set reviewee(value: string) {
+    this.set("reviewee", Value.fromString(value));
+  }
+
   get rating(): BigInt {
     let value = this.get("rating");
     return value!.toBigInt();

@@ -1,6 +1,8 @@
 export default function Stars(props: { number: number }) {
   const { number } = props;
-  const roundedNum = parseInt(number.toString());
+  let final = number;
+  if (number === undefined) final = 0;
+  const roundedNum = parseInt(final.toString());
   const maxStars = [1, 1, 1, 1, 1];
   return (
     <ul className="flex w-32 items-center">

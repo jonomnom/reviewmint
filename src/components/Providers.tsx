@@ -10,7 +10,7 @@ import { alchemyProvider } from 'wagmi/providers/alchemy';
 import client from '../apollo';
 
 const { chains, provider } = configureChains(
-  [IS_MAINNET ? chain.polygon : chain.polygonMumbai],
+  [IS_MAINNET ? chain.polygonMumbai : chain.polygonMumbai],
   [alchemyProvider({ apiKey: ALCHEMY_KEY })]
 );
 

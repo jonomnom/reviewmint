@@ -8,6 +8,8 @@ type Skill @entity {
 
 type Review @entity {
   id: ID! # Reviewer - Reviewee - skill.id
+  reviewer: String!
+  reviewee: String!
   rating: BigInt!
   description: String!
   skill: Skill!

@@ -55,10 +55,10 @@ const Navbar: FC = () => {
 
     return (
       <>
-        <NavItem url="/" name="Home" current={pathname == '/'} />
+        {/* <NavItem url="/" name="Home" current={pathname == '/'} />
         <NavItem url="/explore" name="Explore" current={pathname == '/explore'} />
         <NavItem url="/review/jonomnom.lens" name="Reviews" current={pathname == '/review/jonomnom.lens'} />
-        <MoreNavItems />
+        <MoreNavItems /> */}
       </>
     );
   };
@@ -103,8 +103,8 @@ const Navbar: FC = () => {
               <div className="flex gap-4 items-center">
                 {currentProfile ? (
                   <>
-                    <MessageIcon />
-                    <NotificationIcon />
+                    {/* <MessageIcon /> */}
+                    {/* <NotificationIcon /> */}
                   </>
                 ) : null}
                 <MenuItems />
