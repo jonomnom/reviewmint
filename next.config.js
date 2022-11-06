@@ -9,6 +9,18 @@ const headers = [{ key: 'Cache-Control', value: 'public, max-age=3600' }];
 module.exports = withBundleAnalyzer(
   withSentryConfig(
     {
+      eslint: {
+        // Warning: This allows production builds to successfully complete even if
+        // your project has ESLint errors.
+        ignoreDuringBuilds: true
+      },
+      typescript: {
+        // !! WARN !!
+        // Dangerously allow production builds to successfully complete even if
+        // your project has type errors.
+        // !! WARN !!
+        ignoreBuildErrors: true
+      },
       sentry: {
         hideSourceMaps: true
       },
