@@ -55,10 +55,10 @@ const Navbar: FC = () => {
 
     return (
       <>
-        <NavItem url="/" name="Home" current={pathname == '/'} />
+        {/* <NavItem url="/" name="Home" current={pathname == '/'} />
         <NavItem url="/explore" name="Explore" current={pathname == '/explore'} />
-        <NavItem url="/review/jonomnom.lens" name="Reviews" current={pathname == '/review/jonomnom.lens'} />
-        <MoreNavItems />
+        <NavItem url="/review/jonomnom.lens" name="Reviews" current={pathname == '/review/jonomnom.lens'} /> */}
+        {/* <MoreNavItems /> */}
       </>
     );
   };
