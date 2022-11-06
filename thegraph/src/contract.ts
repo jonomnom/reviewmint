@@ -80,7 +80,7 @@ export function _getOrCreateSkill(skillName: string, account: string) : Skills {
   if (entity == null) {
     entity = new Skills(id)
   }
-  entity.account = account;
+  // entity.account = account;
   entity.skill = skillName;
   
   return entity

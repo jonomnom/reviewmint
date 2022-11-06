@@ -7,6 +7,6 @@ type ExampleEntity @entity {
 
 type Skills @entity {
   id: ID!
-  skill: ID!
+  skill: String!
   account: String!
 }
