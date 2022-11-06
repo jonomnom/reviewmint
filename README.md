@@ -2,9 +2,13 @@
 
 A fork from Lenster. A Review system with phone push notifications on reviews.
 
+Deployed on Polygon Mumbai.
+
 Using Midpoint.
 
-Deployed on Polygon Mumbai.
+Using Lens Protocol
+
+Using ENS.
 
 Using TheGraph.
 
