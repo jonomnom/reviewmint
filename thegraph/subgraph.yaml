@@ -1,0 +1,33 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Contract
+    network: mumbai
+    source:
+      startBlock: 29006033
+      address: '0x0E5A55592bFa892a5c68c1f89260EDa7006E1165'
+      abi: Contract
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - RequestMade
+        - ResponseReceived
+        - ReviewAdded
+        - skillset
+      abis:
+        - name: Contract
+          file: ./abis/Contract.json
+      eventHandlers:
+        - event: RequestMade(uint256,string)
+          handler: handleRequestMade
+        - event: ResponseReceived(uint256,int256)
+          handler: handleResponseReceived
+        - event: ReviewAdded(address,address,string,uint256,string)
+          handler: handleReviewAdded
+        - event: skillset(address,string,string,string,string)
+          handler: handleskillset
+      file: ./src/contract.ts

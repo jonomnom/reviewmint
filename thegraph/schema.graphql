@@ -1,0 +1,14 @@
+type Skill @entity {
+  id: ID!
+  skill: ID!
+  account: String!
+  totalRatings: BigInt!
+  NumOfRatings: BigInt!
+}
+
+type Review @entity {
+  id: ID! # Reviewer - Reviewee - skill.id
+  rating: BigInt!
+  description: String!
+  skill: Skill!
+}
