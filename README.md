@@ -1,12 +1,12 @@
 ### Links
 
-A fork from Lenster. A Review system with phone push notifications on reviews.
+A fork from Lenster. A freelance review protocol with text notifications. 
 
-Deployed on Polygon Mumbai.
+Deployed on Polygon Mumbai as a public good.
 
 Using Midpoint with a GET and POST request.
 
-Using Lens Protocol
+Using Lens Protocol.
 
 Using ENS.
 
