@@ -146,7 +146,6 @@ const Stats: FC<Props> = ({ profile }) => {
       score: 1
     }
   ];
-  console.log(skillSelected)
   const reviewer = currentProfile?.id !== profile?.id;
   const isLoading = false;
   const reviewCompleted = false;
@@ -169,7 +168,7 @@ const Stats: FC<Props> = ({ profile }) => {
           ))}
           {skills?.map((skill, i) => (
             <div
-              className={`p-5 hover:bg-gray-100 cursor-pointer ${i === skillSelected && 'bg-gray-100'}`}
+              className={`p-5 hover:bg-gray-800 cursor-pointer ${i === skillSelected && 'bg-gray-800'}`}
               onClick={() => {
                 if (skillSelected === i) {
                   setSkillSelected(undefined);
