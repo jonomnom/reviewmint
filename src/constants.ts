@@ -26,8 +26,8 @@ export const XMTP_PREFIX = 'lens.dev/dm';
 // Application
 export const APP_NAME = 'Reviewmint';
 export const DESCRIPTION =
-  'Reviewmint is a permissionless social media web app for professionals built with Lens Protocol 🌿';
-export const DEFAULT_OG = 'https://assets.lenster.xyz/images/og/logo.jpeg';
+  'Reviewmint is a decentralized review protocol with text notifications';
+export const DEFAULT_OG = 'https://ibb.co/SVf10DM';
 
 // Git
 export const GIT_COMMIT_SHA = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA?.slice(0, 7);
