@@ -4,7 +4,7 @@ A fork from Lenster. A Review system with phone push notifications on reviews.
 
 Deployed on Polygon Mumbai.
 
-Using Midpoint.
+Using Midpoint with a GET and POST request.
 
 Using Lens Protocol
 
