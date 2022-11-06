@@ -57,5 +57,9 @@ function _getOrCreateReview(
   review.reviewer = reviewer.toHexString();
   review.reviewee = reviewee.toHexString();
   review.save();
+
+  skill.NumOfRatings = skill.NumOfRatings.plus(BigInt.fromI32(1));
+  skill.totalRatings = skill.totalRatings.plus(rating);
+  skill.save();
   return;
 }

@@ -75,7 +75,7 @@ const Stats: FC<Props> = ({ profile }) => {
       .watchQuery({
         query: gql`
         query getSkills{
-          skills(where: { account: "${profile.ownedBy.toLowerCase()}" }, first: 4) {
+          skills(where: { account: "${profile.ownedBy.toLowerCase()}" }, first: 10) {
             account
             totalRatings
             skill
@@ -107,7 +107,7 @@ const Stats: FC<Props> = ({ profile }) => {
         query getReviews{
           reviews (where: {skill_: {
             id: "${skillSelected}"
-          }}){
+          }} first: 100){
             description
             rating
             reviewee
@@ -123,7 +123,7 @@ const Stats: FC<Props> = ({ profile }) => {
         fetchPolicy: 'cache-and-network'
       })
       .subscribe((res) => {
-        console.log(res);
+        console.log('getReviews', res);
         setReviews(res.data && res.data.reviews);
       });
     return () => {
@@ -142,108 +142,7 @@ const Stats: FC<Props> = ({ profile }) => {
     }
   ];
   const [f, a] = useState('');
-  const skills1 = [
-    {
-      title: 'HTML',
-      reviews: [
-        {
-          lensHandle: 'aaveaave.lens',
-          profileUrl:
-            'https://img.lenster.io/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/QmeG11YaqCAirSXPhiN6qLNDqMsnED8WLJLgv2bhtE3QaS',
-          title: 'Best designer ever',
-          score: 1,
-          description: 'HTML Does awesome work!'
-        },
-        {
-          lensHandle: 'aaveaave.lens',
-          profileUrl:
-            'https://img.lenster.io/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/QmeG11YaqCAirSXPhiN6qLNDqMsnED8WLJLgv2bhtE3QaS',
-          title: 'Best designer ever',
-          score: 4,
-          description: 'This person Does awesome work!'
-        },
-        {
-          lensHandle: 'aaveaave.lens',
-          profileUrl:
-            'https://img.lenster.io/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/QmeG11YaqCAirSXPhiN6qLNDqMsnED8WLJLgv2bhtE3QaS',
-          title: 'Best designer ever',
-          score: 1,
-          description: 'HTML Does awesome work!'
-        }
-      ],
-      totalNumOfReviews: 100,
-      score: 1
-    },
-    {
-      title: 'CSS',
-      reviews: [
-        {
-          lensHandle: 'aaveaave.lens',
-          profileUrl:
-            'https://img.lenster.io/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/QmeG11YaqCAirSXPhiN6qLNDqMsnED8WLJLgv2bhtE3QaS',
-          title: 'Best designer ever',
-          score: 2,
-          description: 'I love his design work. Does awesome work!'
-        },
-        {
-          lensHandle: 'aaveaave.lens',
-          profileUrl:
-            'https://img.lenster.io/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/QmeG11YaqCAirSXPhiN6qLNDqMsnED8WLJLgv2bhtE3QaS',
-          title: 'Best designer ever',
-          score: 3,
-          description: 'He knows CSS like the back of his hand. Does awesome work!'
-        }
-      ],
-      totalNumOfReviews: 10,
-      score: 3
-    },
-    {
-      title: 'React',
-      reviews: [
-        {
-          lensHandle: 'aaveaave.lens',
-          profileUrl:
-            'https://img.lenster.io/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/QmeG11YaqCAirSXPhiN6qLNDqMsnED8WLJLgv2bhtE3QaS',
-          title: 'Best designer ever',
-          score: 3,
-          description: 'React wizard. Does awesome work!'
-        },
-        {
-          lensHandle: 'aaveaave.lens',
-          profileUrl:
-            'https://img.lenster.io/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/QmeG11YaqCAirSXPhiN6qLNDqMsnED8WLJLgv2bhtE3QaS',
-          title: 'Best designer ever',
-          score: 1,
-          description: 'Decent at React. Does awesome work!'
-        }
-      ],
-      totalNumOfReviews: 31,
-      score: 4
-    },
-    {
-      title: 'Next',
-      reviews: [
-        {
-          lensHandle: 'aaveaave.lens',
-          profileUrl:
-            'https://img.lenster.io/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/QmeG11YaqCAirSXPhiN6qLNDqMsnED8WLJLgv2bhtE3QaS',
-          title: 'Best designer ever',
-          score: 6,
-          description: 'Was very fast to learn Next. Does awesome work!'
-        },
-        {
-          lensHandle: 'aaveaave.lens',
-          profileUrl:
-            'https://img.lenster.io/tr:n-avatar,tr:di-placeholder.webp/https://lens.infura-ipfs.io/ipfs/QmeG11YaqCAirSXPhiN6qLNDqMsnED8WLJLgv2bhtE3QaS',
-          title: 'Best designer ever',
-          score: 6,
-          description: 'When next? Does awesome work!'
-        }
-      ],
-      totalNumOfReviews: 9,
-      score: 1
-    }
-  ];
+
   const reviewer = currentProfile?.id !== profile?.id;
   const isLoading = false;
   const reviewCompleted = false;
@@ -320,7 +219,9 @@ const Stats: FC<Props> = ({ profile }) => {
                 >
                   <div className="flex justify-between">
                     <div className="my-2">{skill.skill} </div>
-                    <Stars number={parseInt(skill.totalRatings || '0') || 0} />
+                    <Stars
+                      number={parseInt((skill.totalRatings / skill.NumOfRatings).toString() || '0') || 0}
+                    />
                     {/* TODO: Make this an average */}
                     <div className="my-2 text-slate-500">{skill.NumOfRatings} Reviews</div>
                   </div>
@@ -349,7 +250,7 @@ const Stats: FC<Props> = ({ profile }) => {
                           profileUrl={review.profileUrl}
                           title={review.title}
                           description={review.description}
-                          rating={review.score}
+                          rating={review.rating}
                         />
                       );
                     })}
