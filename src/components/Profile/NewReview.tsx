@@ -161,25 +161,25 @@ const NewReview: FC<Props> = ({ profile, setShowAddReviewModal, skills }) => {
       <Input
         label={skills.length > 1 ? `Review user's ${skills[0].skill} skill.` : 'Description'}
         onChange={(e) => setReview1(e.target.value)}
-        placeholder="Skill 1 Review"
+        placeholder="Skill 1"
       />
       <Input prefix={'Stars'} onChange={(e) => setRating1(e.target.value)} />
       <Input
         label={skills.length > 2 ? `Review user's ${skills[1].skill} skill.` : 'Description'}
         onChange={(e) => setReview2(e.target.value)}
-        placeholder="Skill 2 Review"
+        placeholder="Skill 2"
       />
       <Input prefix={'Stars'} onChange={(e) => setRating2(e.target.value)} />
       <Input
         label={skills.length > 3 ? `Review user's ${skills[2].skill} skill.` : 'Description'}
         onChange={(e) => setReview3(e.target.value)}
-        placeholder="Skill 3 Review"
+        placeholder="Skill 3"
       />
       <Input prefix={'Stars'} onChange={(e) => setRating3(e.target.value)} />
       <Input
         label={skills.length > 4 ? `Review user's ${skills[3].skill} skill.` : 'Description'}
         onChange={(e) => setReview4(e.target.value)}
-        placeholder="Skill 4 Review"
+        placeholder="Skill 4"
       />
       <Input prefix={'Stars'} onChange={(e) => setRating4(e.target.value)} />
       <div className="block items-center sm:flex">
