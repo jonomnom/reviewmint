@@ -2,6 +2,7 @@ import NewPost from '@components/Composer/Post/New';
 import ExploreFeed from '@components/Explore/Feed';
 import BetaWarning from '@components/Home/BetaWarning';
 import Footer from '@components/Shared/Footer';
+import Search from '@components/Shared/Navbar/Search';
 import { GridItemEight, GridItemFour, GridLayout } from '@components/UI/GridLayout';
 import MetaTags from '@components/utils/MetaTags';
 import isFeatureEnabled from '@lib/isFeatureEnabled';
@@ -30,34 +31,9 @@ const Home: NextPage = () => {
       {!currentProfile && <Hero />}
       <GridLayout>
         <GridItemEight className="space-y-5">
-          {currentProfile ? (
-            <>
-              <NewPost />
-              <FeedType feedType={feedType} setFeedType={setFeedType} />
-              {feedType === 'TIMELINE' ? <Timeline /> : <Highlights />}
-            </>
-          ) : (
-            <ExploreFeed />
-          )}
+          <div>Start by searching for profiles in the search. {`(ex: jon169.test)`}</div>
+          <div>Or you can go to your profile after you login to create your own profile with your skills</div>
         </GridItemEight>
-        <GridItemFour>
-          {currentProfile ? (
-            <>
-              <EnableDispatcher />
-              <EnableMessages />
-            </>
-          ) : null}
-          <BetaWarning />
-          {isFeatureEnabled('trending-widget', currentProfile?.id) && <Trending />}
-          {currentProfile ? (
-            <>
-              <SetDefaultProfile />
-              <SetProfile />
-              <RecommendedProfiles />
-            </>
-          ) : null}
-          <Footer />
-        </GridItemFour>
       </GridLayout>
     </>
   );

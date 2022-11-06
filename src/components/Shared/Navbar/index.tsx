@@ -94,7 +94,7 @@ const Navbar: FC = () => {
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex items-center space-x-4">
                     <div className="hidden lg:block">
-                      <Search onProfileSelected={onProfileSelected} />
+                      {true && <Search onProfileSelected={onProfileSelected} />}
                     </div>
                     <NavItems />
                   </div>
