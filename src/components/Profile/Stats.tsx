@@ -23,6 +23,8 @@ import { Spinner } from '@components/UI/Spinner';
 import { Modal } from '@components/UI/Modal';
 import CollectModule from '@components/Publication/Actions/Collect/CollectModule';
 import NewComment from '@components/Composer/Comment/New';
+import getAttribute from '@lib/getAttribute';
+
 interface Props {
   profile: Profile;
 }
@@ -34,13 +36,12 @@ const Stats: FC<Props> = ({ profile }) => {
   const [showAddReviewModal, setShowAddReviewModal] = useState<number>();
   const stats = [
     {
-      category: 'exp',
-      description:
-        'I have been doing web development for 2 years. I got into crypto 1 year ago. I am the cofounder of Clipto and AmpliFi.'
+      category: 'Experience',
+      description: getAttribute(profile?.attributes, 'experience')
     },
     {
-      category: 'edu',
-      description: 'I graduated UC Berkeley with a BS in Molecular Biology'
+      category: 'Education',
+      description: getAttribute(profile?.attributes, 'education')
     }
   ];
   const skills = [
@@ -145,17 +146,17 @@ const Stats: FC<Props> = ({ profile }) => {
       score: 1
     }
   ];
-  const reviewer = true;
+  const reviewer = currentProfile?.id !== profile?.id;
   const isLoading = false;
   const reviewCompleted = false;
   const addReview = () => {};
 
   return (
     <>
-      <Modal onClose={() => setSkillSelected(undefined)} show={skillSelected !== undefined} title={'Review'}>
+      {reviewer ? (<Modal onClose={() => setSkillSelected(undefined)} show={skillSelected !== undefined} title={'Review'}>
         {/* <CollectModule count={'1-1'} publication={'A' as any} setCount={1 as any} /> */}
         <NewComment publication={'0x1c19-0x64' as any} />
-      </Modal>
+      </Modal>) : null}
       <div className="flex justify-between gap-4">
         <Card className="divide-y-[1px] dark:divide-gray-700/80">
           {stats?.map((stats, index: number) => (
@@ -167,7 +168,7 @@ const Stats: FC<Props> = ({ profile }) => {
           ))}
           {skills?.map((skill, i) => (
             <div
-              className={`p-5 hover:bg-gray-100 cursor-pointer ${i === skillSelected && 'bg-gray-100'}`}
+              className={`p-5 hover:bg-gray-800 cursor-pointer ${i === skillSelected && 'bg-gray-800'}`}
               onClick={() => {
                 if (skillSelected === i) {
                   setSkillSelected(undefined);
