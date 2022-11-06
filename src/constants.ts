@@ -24,9 +24,9 @@ export const XMTP_ENV = IS_MAINNET ? 'production' : 'dev';
 export const XMTP_PREFIX = 'lens.dev/dm';
 
 // Application
-export const APP_NAME = 'Lenster';
+export const APP_NAME = 'Reviewmint';
 export const DESCRIPTION =
-  'Lenster is a composable, decentralized, and permissionless social media web app built with Lens Protocol 🌿';
+  'Reviewmint is a permissionless social media web app for professionals built with Lens Protocol 🌿';
 export const DEFAULT_OG = 'https://assets.lenster.xyz/images/og/logo.jpeg';
 
 // Git

@@ -49,7 +49,9 @@ const editProfileSchema = object({
   twitter: string().max(100, {
     message: 'Twitter should not exceed 100 characters'
   }),
-  bio: string().max(260, { message: 'Bio should not exceed 260 characters' })
+  bio: string().max(260, { message: 'Bio should not exceed 260 characters' }),
+  exp: string().max(5000, { message: 'Experience should not exceed 5000 characters' }),
+  edu: string().max(5000, { message: 'Education should not exceed 5000 characters' })
 });
 
 interface Props {
@@ -165,6 +167,8 @@ const Profile: FC<Props> = ({ profile }) => {
     schema: editProfileSchema,
     defaultValues: {
       name: profile?.name ?? '',
+      exp: getAttribute(profile?.attributes, 'experience'),
+      edu: getAttribute(profile?.attributes, 'education'),
       location: getAttribute(profile?.attributes, 'location'),
       website: getAttribute(profile?.attributes, 'website'),
       twitter: getAttribute(profile?.attributes, 'twitter')?.replace('https://twitter.com/', ''),
@@ -177,7 +181,9 @@ const Profile: FC<Props> = ({ profile }) => {
     location: string | null,
     website?: string | null,
     twitter?: string | null,
-    bio?: string | null
+    bio?: string | null,
+    exp?: string | null,
+    edu?: string | null
   ) => {
     if (!currentProfile) {
       return toast.error(SIGN_WALLET);
@@ -189,6 +195,16 @@ const Profile: FC<Props> = ({ profile }) => {
       bio,
       cover_picture: cover ? cover : null,
       attributes: [
+        {
+          traitType: 'string',
+          key: 'experience',
+          value: exp
+        },
+        {
+          traitType: 'string',
+          key: 'education',
+          value: edu
+        },
         {
           traitType: 'string',
           key: 'location',
@@ -251,8 +267,8 @@ const Profile: FC<Props> = ({ profile }) => {
       <Form
         form={form}
         className="space-y-4"
-        onSubmit={({ name, location, website, twitter, bio }) => {
-          editProfile(name, location, website, twitter, bio);
+        onSubmit={({ name, location, website, twitter, bio, exp, edu }) => {
+          editProfile(name, location, website, twitter, bio, exp, edu);
         }}
       >
         {error && <ErrorMessage className="mb-3" title="Transaction failed!" error={error} />}
@@ -268,6 +284,8 @@ const Profile: FC<Props> = ({ profile }) => {
           {...form.register('twitter')}
         />
         <TextArea label="Bio" placeholder="Tell us something about you!" {...form.register('bio')} />
+        <TextArea label="Experience" placeholder="Tell us your work experiences" {...form.register('exp')} />
+        <TextArea label="Education" placeholder="Tell us your education" {...form.register('edu')} />
         <div className="space-y-1.5">
           <div className="label">Cover</div>
           <div className="space-y-3">
@@ -286,7 +304,7 @@ const Profile: FC<Props> = ({ profile }) => {
             </div>
           </div>
         </div>
-        <div className="pt-4 space-y-2">
+        {/* <div className="pt-4 space-y-2">
           <div className="flex items-center space-x-2 label">
             <img className="w-5 h-5" src="/pride.svg" alt="Pride Logo" />
             <span>Celebrate pride every day</span>
@@ -295,7 +313,7 @@ const Profile: FC<Props> = ({ profile }) => {
             <Toggle on={pride} setOn={setPride} />
             <div>Turn this on to show your pride and turn the {APP_NAME} logo rainbow every day.</div>
           </div>
-        </div>
+        </div> */}
         <div className="flex flex-col space-y-2">
           <Button
             className="ml-auto"
