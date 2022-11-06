@@ -2084,10 +2084,6 @@ export type Profile = {
   attributes?: Maybe<Array<Attribute>>;
   /** Bio of the profile */
   bio?: Maybe<Scalars['String']>;
-  /** Experience of the profile */
-  exp?: Maybe<Scalars['String']>;
-  /** Education of the profile */
-  edu?: Maybe<Scalars['String']>;
   /** The cover picture for the profile */
   coverPicture?: Maybe<ProfileMedia>;
   /** The dispatcher */

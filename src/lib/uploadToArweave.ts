@@ -9,11 +9,13 @@ import { ERROR_MESSAGE } from 'src/constants';
  */
 const uploadToArweave = async (data: any): Promise<string> => {
   try {
+    console.log(data)
     const upload = await axios('/api/metadata/upload', {
       method: 'POST',
       data
     });
 
+    console.log(upload)
     const { id }: { id: string } = upload?.data;
 
     return id;

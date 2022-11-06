@@ -23,6 +23,8 @@ import { Spinner } from '@components/UI/Spinner';
 import { Modal } from '@components/UI/Modal';
 import CollectModule from '@components/Publication/Actions/Collect/CollectModule';
 import NewComment from '@components/Composer/Comment/New';
+import getAttribute from '@lib/getAttribute';
+
 interface Props {
   profile: Profile;
 }
@@ -35,12 +37,11 @@ const Stats: FC<Props> = ({ profile }) => {
   const stats = [
     {
       category: 'Experience',
-      description:
-        'I have been doing web development for 2 years. I got into crypto 1 year ago. I am the cofounder of Clipto and AmpliFi.'
+      description: getAttribute(profile?.attributes, 'experience')
     },
     {
       category: 'Education',
-      description: 'I graduated UC Berkeley with a BS in Molecular Biology'
+      description: getAttribute(profile?.attributes, 'education')
     }
   ];
   const skills = [
