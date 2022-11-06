@@ -11,7 +11,7 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class ExampleEntity extends Entity {
+export class Skill extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -19,77 +19,18 @@ export class ExampleEntity extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save ExampleEntity entity without an ID");
+    assert(id != null, "Cannot save Skill entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type ExampleEntity must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Skill must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("ExampleEntity", id.toString(), this);
+      store.set("Skill", id.toString(), this);
     }
   }
 
-  static load(id: string): ExampleEntity | null {
-    return changetype<ExampleEntity | null>(store.get("ExampleEntity", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get count(): BigInt {
-    let value = this.get("count");
-    return value!.toBigInt();
-  }
-
-  set count(value: BigInt) {
-    this.set("count", Value.fromBigInt(value));
-  }
-
-  get requestId(): BigInt {
-    let value = this.get("requestId");
-    return value!.toBigInt();
-  }
-
-  set requestId(value: BigInt) {
-    this.set("requestId", Value.fromBigInt(value));
-  }
-
-  get user_address(): string {
-    let value = this.get("user_address");
-    return value!.toString();
-  }
-
-  set user_address(value: string) {
-    this.set("user_address", Value.fromString(value));
-  }
-}
-
-export class Skills extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save Skills entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type Skills must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("Skills", id.toString(), this);
-    }
-  }
-
-  static load(id: string): Skills | null {
-    return changetype<Skills | null>(store.get("Skills", id));
+  static load(id: string): Skill | null {
+    return changetype<Skill | null>(store.get("Skill", id));
   }
 
   get id(): string {
@@ -117,5 +58,82 @@ export class Skills extends Entity {
 
   set account(value: string) {
     this.set("account", Value.fromString(value));
+  }
+
+  get totalRatings(): BigInt {
+    let value = this.get("totalRatings");
+    return value!.toBigInt();
+  }
+
+  set totalRatings(value: BigInt) {
+    this.set("totalRatings", Value.fromBigInt(value));
+  }
+
+  get NumOfRatings(): BigInt {
+    let value = this.get("NumOfRatings");
+    return value!.toBigInt();
+  }
+
+  set NumOfRatings(value: BigInt) {
+    this.set("NumOfRatings", Value.fromBigInt(value));
+  }
+}
+
+export class Review extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Review entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Review must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Review", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Review | null {
+    return changetype<Review | null>(store.get("Review", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get rating(): BigInt {
+    let value = this.get("rating");
+    return value!.toBigInt();
+  }
+
+  set rating(value: BigInt) {
+    this.set("rating", Value.fromBigInt(value));
+  }
+
+  get description(): string {
+    let value = this.get("description");
+    return value!.toString();
+  }
+
+  set description(value: string) {
+    this.set("description", Value.fromString(value));
+  }
+
+  get skill(): string {
+    let value = this.get("skill");
+    return value!.toString();
+  }
+
+  set skill(value: string) {
+    this.set("skill", Value.fromString(value));
   }
 }

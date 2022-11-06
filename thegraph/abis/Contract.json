@@ -50,37 +50,68 @@
       {
         "indexed": false,
         "internalType": "address",
-        "name": "",
+        "name": "reviewer",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "reviewee",
         "type": "address"
       },
       {
         "indexed": false,
         "internalType": "string",
-        "name": "",
+        "name": "skillName",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "rating",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "review",
+        "type": "string"
+      }
+    ],
+    "name": "ReviewAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "a",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "p1",
         "type": "string"
       },
       {
         "indexed": false,
         "internalType": "string",
-        "name": "",
+        "name": "p2",
         "type": "string"
       },
       {
         "indexed": false,
         "internalType": "string",
-        "name": "",
+        "name": "p3",
         "type": "string"
       },
       {
         "indexed": false,
         "internalType": "string",
-        "name": "",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "",
+        "name": "p4",
         "type": "string"
       }
     ],
@@ -94,7 +125,10 @@
       { "internalType": "uint256", "name": "_rating2", "type": "uint256" },
       { "internalType": "uint256", "name": "_rating3", "type": "uint256" },
       { "internalType": "uint256", "name": "_rating4", "type": "uint256" },
-      { "internalType": "uint256", "name": "_rating5", "type": "uint256" }
+      { "internalType": "string", "name": "review1", "type": "string" },
+      { "internalType": "string", "name": "review2", "type": "string" },
+      { "internalType": "string", "name": "review3", "type": "string" },
+      { "internalType": "string", "name": "review4", "type": "string" }
     ],
     "name": "addReview",
     "outputs": [],
@@ -137,12 +171,34 @@
     "type": "function"
   },
   {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "isphoneVerify",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "phoneVerify",
+    "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "_phone", "type": "string" }
+    ],
+    "name": "setPhone",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [
       { "internalType": "string", "name": "_skillName1", "type": "string" },
       { "internalType": "string", "name": "_skillName2", "type": "string" },
       { "internalType": "string", "name": "_skillName3", "type": "string" },
-      { "internalType": "string", "name": "_skillName4", "type": "string" },
-      { "internalType": "string", "name": "_skillName5", "type": "string" }
+      { "internalType": "string", "name": "_skillName4", "type": "string" }
     ],
     "name": "setSkills",
     "outputs": [],
@@ -179,13 +235,6 @@
   },
   {
     "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "name": "skillName5",
-    "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "name": "skillRating1",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
@@ -214,13 +263,6 @@
   },
   {
     "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "name": "skillRating5",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "name": "skillRatingnumber1",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
@@ -243,13 +285,6 @@
   {
     "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "name": "skillRatingnumber4",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "name": "skillRatingnumber5",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"

@@ -3,6 +3,7 @@ import { ethereum, BigInt, Address } from "@graphprotocol/graph-ts"
 import {
   RequestMade,
   ResponseReceived,
+  ReviewAdded,
   skillset
 } from "../generated/Contract/Contract"
 
@@ -54,35 +55,61 @@ export function createResponseReceivedEvent(
   return responseReceivedEvent
 }
 
+export function createReviewAddedEvent(
+  reviewer: Address,
+  reviewee: Address,
+  skillName: string,
+  rating: BigInt,
+  review: string
+): ReviewAdded {
+  let reviewAddedEvent = changetype<ReviewAdded>(newMockEvent())
+
+  reviewAddedEvent.parameters = new Array()
+
+  reviewAddedEvent.parameters.push(
+    new ethereum.EventParam("reviewer", ethereum.Value.fromAddress(reviewer))
+  )
+  reviewAddedEvent.parameters.push(
+    new ethereum.EventParam("reviewee", ethereum.Value.fromAddress(reviewee))
+  )
+  reviewAddedEvent.parameters.push(
+    new ethereum.EventParam("skillName", ethereum.Value.fromString(skillName))
+  )
+  reviewAddedEvent.parameters.push(
+    new ethereum.EventParam("rating", ethereum.Value.fromUnsignedBigInt(rating))
+  )
+  reviewAddedEvent.parameters.push(
+    new ethereum.EventParam("review", ethereum.Value.fromString(review))
+  )
+
+  return reviewAddedEvent
+}
+
 export function createskillsetEvent(
-  param0: Address,
-  param1: string,
-  param2: string,
-  param3: string,
-  param4: string,
-  param5: string
+  a: Address,
+  p1: string,
+  p2: string,
+  p3: string,
+  p4: string
 ): skillset {
   let skillsetEvent = changetype<skillset>(newMockEvent())
 
   skillsetEvent.parameters = new Array()
 
   skillsetEvent.parameters.push(
-    new ethereum.EventParam("param0", ethereum.Value.fromAddress(param0))
+    new ethereum.EventParam("a", ethereum.Value.fromAddress(a))
   )
   skillsetEvent.parameters.push(
-    new ethereum.EventParam("param1", ethereum.Value.fromString(param1))
+    new ethereum.EventParam("p1", ethereum.Value.fromString(p1))
   )
   skillsetEvent.parameters.push(
-    new ethereum.EventParam("param2", ethereum.Value.fromString(param2))
+    new ethereum.EventParam("p2", ethereum.Value.fromString(p2))
   )
   skillsetEvent.parameters.push(
-    new ethereum.EventParam("param3", ethereum.Value.fromString(param3))
+    new ethereum.EventParam("p3", ethereum.Value.fromString(p3))
   )
   skillsetEvent.parameters.push(
-    new ethereum.EventParam("param4", ethereum.Value.fromString(param4))
-  )
-  skillsetEvent.parameters.push(
-    new ethereum.EventParam("param5", ethereum.Value.fromString(param5))
+    new ethereum.EventParam("p4", ethereum.Value.fromString(p4))
   )
 
   return skillsetEvent

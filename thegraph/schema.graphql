@@ -1,12 +1,14 @@
-type ExampleEntity @entity {
+type Skill @entity {
   id: ID!
-  count: BigInt!
-  requestId: BigInt! # uint256
-  user_address: String! # string
+  skill: ID!
+  account: String!
+  totalRatings: BigInt!
+  NumOfRatings: BigInt!
 }
 
-type Skills @entity {
-  id: ID!
-  skill: String!
-  account: String!
+type Review @entity {
+  id: ID! # Reviewer - Reviewee - skill.id
+  rating: BigInt!
+  description: String!
+  skill: Skill!
 }

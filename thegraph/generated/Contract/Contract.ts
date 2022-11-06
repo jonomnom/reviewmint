@@ -54,6 +54,40 @@ export class ResponseReceived__Params {
   }
 }
 
+export class ReviewAdded extends ethereum.Event {
+  get params(): ReviewAdded__Params {
+    return new ReviewAdded__Params(this);
+  }
+}
+
+export class ReviewAdded__Params {
+  _event: ReviewAdded;
+
+  constructor(event: ReviewAdded) {
+    this._event = event;
+  }
+
+  get reviewer(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get reviewee(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get skillName(): string {
+    return this._event.parameters[2].value.toString();
+  }
+
+  get rating(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+
+  get review(): string {
+    return this._event.parameters[4].value.toString();
+  }
+}
+
 export class skillset extends ethereum.Event {
   get params(): skillset__Params {
     return new skillset__Params(this);
@@ -67,28 +101,24 @@ export class skillset__Params {
     this._event = event;
   }
 
-  get param0(): Address {
+  get a(): Address {
     return this._event.parameters[0].value.toAddress();
   }
 
-  get param1(): string {
+  get p1(): string {
     return this._event.parameters[1].value.toString();
   }
 
-  get param2(): string {
+  get p2(): string {
     return this._event.parameters[2].value.toString();
   }
 
-  get param3(): string {
+  get p3(): string {
     return this._event.parameters[3].value.toString();
   }
 
-  get param4(): string {
+  get p4(): string {
     return this._event.parameters[4].value.toString();
-  }
-
-  get param5(): string {
-    return this._event.parameters[5].value.toString();
   }
 }
 
@@ -133,6 +163,46 @@ export class Contract extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  isphoneVerify(param0: Address): boolean {
+    let result = super.call("isphoneVerify", "isphoneVerify(address):(bool)", [
+      ethereum.Value.fromAddress(param0)
+    ]);
+
+    return result[0].toBoolean();
+  }
+
+  try_isphoneVerify(param0: Address): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "isphoneVerify",
+      "isphoneVerify(address):(bool)",
+      [ethereum.Value.fromAddress(param0)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  phoneVerify(param0: Address): string {
+    let result = super.call("phoneVerify", "phoneVerify(address):(string)", [
+      ethereum.Value.fromAddress(param0)
+    ]);
+
+    return result[0].toString();
+  }
+
+  try_phoneVerify(param0: Address): ethereum.CallResult<string> {
+    let result = super.tryCall("phoneVerify", "phoneVerify(address):(string)", [
+      ethereum.Value.fromAddress(param0)
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toString());
   }
 
   skillName1(param0: Address): string {
@@ -202,25 +272,6 @@ export class Contract extends ethereum.SmartContract {
 
   try_skillName4(param0: Address): ethereum.CallResult<string> {
     let result = super.tryCall("skillName4", "skillName4(address):(string)", [
-      ethereum.Value.fromAddress(param0)
-    ]);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toString());
-  }
-
-  skillName5(param0: Address): string {
-    let result = super.call("skillName5", "skillName5(address):(string)", [
-      ethereum.Value.fromAddress(param0)
-    ]);
-
-    return result[0].toString();
-  }
-
-  try_skillName5(param0: Address): ethereum.CallResult<string> {
-    let result = super.tryCall("skillName5", "skillName5(address):(string)", [
       ethereum.Value.fromAddress(param0)
     ]);
     if (result.reverted) {
@@ -305,27 +356,6 @@ export class Contract extends ethereum.SmartContract {
     let result = super.tryCall(
       "skillRating4",
       "skillRating4(address):(uint256)",
-      [ethereum.Value.fromAddress(param0)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  skillRating5(param0: Address): BigInt {
-    let result = super.call("skillRating5", "skillRating5(address):(uint256)", [
-      ethereum.Value.fromAddress(param0)
-    ]);
-
-    return result[0].toBigInt();
-  }
-
-  try_skillRating5(param0: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "skillRating5",
-      "skillRating5(address):(uint256)",
       [ethereum.Value.fromAddress(param0)]
     );
     if (result.reverted) {
@@ -426,29 +456,6 @@ export class Contract extends ethereum.SmartContract {
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
-
-  skillRatingnumber5(param0: Address): BigInt {
-    let result = super.call(
-      "skillRatingnumber5",
-      "skillRatingnumber5(address):(uint256)",
-      [ethereum.Value.fromAddress(param0)]
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_skillRatingnumber5(param0: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "skillRatingnumber5",
-      "skillRatingnumber5(address):(uint256)",
-      [ethereum.Value.fromAddress(param0)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
 }
 
 export class ConstructorCall extends ethereum.Call {
@@ -518,8 +525,20 @@ export class AddReviewCall__Inputs {
     return this._call.inputValues[4].value.toBigInt();
   }
 
-  get _rating5(): BigInt {
-    return this._call.inputValues[5].value.toBigInt();
+  get review1(): string {
+    return this._call.inputValues[5].value.toString();
+  }
+
+  get review2(): string {
+    return this._call.inputValues[6].value.toString();
+  }
+
+  get review3(): string {
+    return this._call.inputValues[7].value.toString();
+  }
+
+  get review4(): string {
+    return this._call.inputValues[8].value.toString();
   }
 }
 
@@ -603,6 +622,36 @@ export class CallbackCall__Outputs {
   }
 }
 
+export class SetPhoneCall extends ethereum.Call {
+  get inputs(): SetPhoneCall__Inputs {
+    return new SetPhoneCall__Inputs(this);
+  }
+
+  get outputs(): SetPhoneCall__Outputs {
+    return new SetPhoneCall__Outputs(this);
+  }
+}
+
+export class SetPhoneCall__Inputs {
+  _call: SetPhoneCall;
+
+  constructor(call: SetPhoneCall) {
+    this._call = call;
+  }
+
+  get _phone(): string {
+    return this._call.inputValues[0].value.toString();
+  }
+}
+
+export class SetPhoneCall__Outputs {
+  _call: SetPhoneCall;
+
+  constructor(call: SetPhoneCall) {
+    this._call = call;
+  }
+}
+
 export class SetSkillsCall extends ethereum.Call {
   get inputs(): SetSkillsCall__Inputs {
     return new SetSkillsCall__Inputs(this);
@@ -634,10 +683,6 @@ export class SetSkillsCall__Inputs {
 
   get _skillName4(): string {
     return this._call.inputValues[3].value.toString();
-  }
-
-  get _skillName5(): string {
-    return this._call.inputValues[4].value.toString();
   }
 }
 

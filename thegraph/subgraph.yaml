@@ -6,8 +6,8 @@ dataSources:
     name: Contract
     network: mumbai
     source:
-      startBlock: 29000788
-      address: "0x5d320b5468e1c65468266c1d5901cf2e0ad56d88"
+      startBlock: 29006033
+      address: '0x0E5A55592bFa892a5c68c1f89260EDa7006E1165'
       abi: Contract
     mapping:
       kind: ethereum/events
@@ -16,6 +16,7 @@ dataSources:
       entities:
         - RequestMade
         - ResponseReceived
+        - ReviewAdded
         - skillset
       abis:
         - name: Contract
@@ -25,6 +26,8 @@ dataSources:
           handler: handleRequestMade
         - event: ResponseReceived(uint256,int256)
           handler: handleResponseReceived
-        - event: skillset(address,string,string,string,string,string)
+        - event: ReviewAdded(address,address,string,uint256,string)
+          handler: handleReviewAdded
+        - event: skillset(address,string,string,string,string)
           handler: handleskillset
       file: ./src/contract.ts

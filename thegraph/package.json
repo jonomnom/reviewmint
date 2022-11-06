@@ -1,13 +1,13 @@
 {
-  "name": "reviewmintv3",
+  "name": "reviewmint",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ jonomnom/reviewmintv3",
-    "create-local": "graph create --node http://localhost:8020/ jonomnom/reviewmintv3",
-    "remove-local": "graph remove --node http://localhost:8020/ jonomnom/reviewmintv3",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 jonomnom/reviewmintv3",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ jonomnom/reviewmint",
+    "create-local": "graph create --node http://localhost:8020/ jonomnom/reviewmint",
+    "remove-local": "graph remove --node http://localhost:8020/ jonomnom/reviewmint",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 jonomnom/reviewmint",
     "test": "graph test"
   },
   "dependencies": {
