@@ -49,19 +49,6 @@ const MoreNavItems: FC = () => {
                   <div>Contact</div>
                 </div>
               </Menu.Item>
-              <Menu.Item
-                as="a"
-                href="https://github.com/lensterxyz/lenster/issues/new?assignees=bigint&labels=needs+review&template=bug_report.yml"
-                target="_blank"
-                className={({ active }: { active: boolean }) =>
-                  clsx({ 'dropdown-active': active }, 'menu-item')
-                }
-              >
-                <div className="flex items-center space-x-1.5">
-                  <HandIcon className="w-4 h-4" />
-                  <div>Report a bug</div>
-                </div>
-              </Menu.Item>
             </Menu.Items>
           </Transition>
         </>
