@@ -14,6 +14,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { SCROLL_THRESHOLD } from 'src/constants';
 import { useAppStore } from 'src/store/app';
 import SingleStat from './SingleStat';
+import onError from '@lib/onError';
 
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import SingleReview from './SingleReview';
@@ -27,6 +28,9 @@ import getAttribute from '@lib/getAttribute';
 import NewReview from './NewReview';
 import NewSkill from './NewSkills';
 import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
+import { Input } from '@components/UI/Input';
+import { useContractWrite } from 'wagmi';
+import ABI from '../../../thegraph/abis/Contract.json';
 interface Props {
   profile: Profile;
 }
@@ -37,13 +41,33 @@ const client = new ApolloClient({
 });
 
 const Stats: FC<Props> = ({ profile }) => {
+  const [phoneNumber, setPhoneNumber] = useState<string>();
   const parent = useAutoAnimate(/* optional config */);
   const currentProfile = useAppStore((state) => state.currentProfile);
   const [skillSelected, setSkillSelected] = useState<string>();
   const [showAddReviewModal, setShowAddReviewModal] = useState<boolean>(false);
   const [skills, setSkills] = useState<Array<any>>();
   const [reviews, setReviews] = useState<Array<any>>();
+  const {
+    error,
+    isLoading: writeLoading,
+    write
+  } = useContractWrite({
+    address: '0x0E5A55592bFa892a5c68c1f89260EDa7006E1165',
+    abi: ABI,
+    functionName: 'setPhone',
+    mode: 'recklesslyUnprepared',
+    onSuccess: ({ hash }) => {
+      console.log(hash);
+    },
+    onError
+  });
 
+  const addPh = async () => {
+    write?.({
+      recklesslySetUnpreparedArgs: [phoneNumber]
+    });
+  };
   useEffect(() => {
     if (!client) return;
     if (!profile.ownedBy) return;
@@ -244,6 +268,17 @@ const Stats: FC<Props> = ({ profile }) => {
             {'Add Skills'}
           </Button>
         </>
+      ) : !reviewer && skills && skills.length > 0 ? (
+        <div>
+          <Input onChange={(e) => setPhoneNumber(e.target.value)} placeholder={'Add phone number'} />
+          <Button
+            disabled={isLoading || reviewCompleted}
+            icon={isLoading ? <Spinner size="xs" /> : <ChatAlt2Icon className="w-4 h-4" />}
+            onClick={() => phoneNumber && addPh(phoneNumber)}
+          >
+            {'Add Phone Number to receive SMS notifications'}
+          </Button>
+        </div>
       ) : null}
       {true ? (
         <Modal onClose={() => setShowAddReviewModal(false)} show={showAddReviewModal} title={'Review'}>
