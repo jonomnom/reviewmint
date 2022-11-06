@@ -56,7 +56,10 @@ const SingleReview: FC<Props> = ({
   return (
     <>
       <article className="hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer first:rounded-t-xl last:rounded-b-xl p-5">
-        <Link href={`/review/${lensHandle}`}>
+        <Link href={`/u/${lensHandle}`} onClick={(e) => {
+          e.preventDefault();
+          window.location.href = `/u/${lensHandle}`
+        }}>
           <div className="flex align-middle mb-3">
             <div className="mt-0 w-fit">
               <img src={profileUrl} className="rounded-full w-14 " alt="profile picture" />

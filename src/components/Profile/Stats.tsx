@@ -146,17 +146,18 @@ const Stats: FC<Props> = ({ profile }) => {
       score: 1
     }
   ];
-  const reviewer = true;
+  console.log(skillSelected)
+  const reviewer = currentProfile?.id !== profile?.id;
   const isLoading = false;
   const reviewCompleted = false;
   const addReview = () => {};
 
   return (
     <>
-      <Modal onClose={() => setSkillSelected(undefined)} show={skillSelected !== undefined} title={'Review'}>
+      {reviewer ? (<Modal onClose={() => setSkillSelected(undefined)} show={skillSelected !== undefined} title={'Review'}>
         {/* <CollectModule count={'1-1'} publication={'A' as any} setCount={1 as any} /> */}
         <NewComment publication={'0x1c19-0x64' as any} />
-      </Modal>
+      </Modal>) : null}
       <div className="flex justify-between gap-4">
         <Card className="divide-y-[1px] dark:divide-gray-700/80">
           {stats?.map((stats, index: number) => (
